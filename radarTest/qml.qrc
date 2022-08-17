@@ -3,5 +3,10 @@
         <file>main.qml</file>
         <file>CoordinateListModel.qml</file>
         <file>CoordinateListElement.qml</file>
+        <file>ListToolBar.qml</file>
+        <file>icons/remove_point.svg</file>
+        <file>icons/add_point.svg</file>
+        <file>ListToolButton.qml</file>
+        <file>ListCheckButton.qml</file>
     </qresource>
 </RCC>

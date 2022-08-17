@@ -3,12 +3,14 @@ import QtQuick.Window 2.15
 import QtQuick.Layouts 1.2
 
 Window {
+    id: mainwindow
+
     width: 480
     height: 480
     visible: true
     title: qsTr("Radar Test")
 
-    property int gap: 2
+    property int gap: 4
     property int borderWidth: 1
     property int elementHeight: 40
 
@@ -28,6 +30,11 @@ Window {
                 Layout.fillWidth: true
                 Layout.preferredHeight: elementHeight + 2 * gap
                 color: "lightgray"
+
+                ListToolBar {
+                    anchors.fill: parent
+                    anchors.margins: gap
+                }
             }
 
             Rectangle {

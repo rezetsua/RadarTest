@@ -13,19 +13,10 @@ Item {
         anchors.rightMargin: gap
         spacing: gap
 
-        Rectangle {
+        ListCheckButton {
             Layout.fillHeight: true
             Layout.preferredWidth: elementHeight
-            color: "darkgray"
-            border.width: borderWidth
-            border.color: borderColor
-
-            Text {
-                anchors.centerIn: parent
-                text: model.id
-                color: textColor
-                font.pixelSize: elementHeight / 2
-            }
+            buttonText: model.id
         }
 
         Rectangle {
