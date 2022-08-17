@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>CoordinateListModel.qml</file>
+        <file>CoordinateListElement.qml</file>
+    </qresource>
+</RCC>
