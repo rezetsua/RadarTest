@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
   QGuiApplication app(argc, argv);
   QQmlApplicationEngine engine;
 
-  ListModel list_model_;
+  ListModel list_model_(app.applicationDirPath());
   engine.rootContext()->setContextProperty("list_model_", &list_model_);
 
   engine.load(QUrl(QStringLiteral("qrc:/main.qml")));

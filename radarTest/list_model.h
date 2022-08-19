@@ -3,6 +3,13 @@
 
 #include <QObject>
 #include <QAbstractListModel>
+#include <QJsonObject>
+#include <QJsonParseError>
+#include <QJsonArray>
+#include <QFile>
+#include <QDir>
+
+const QString ROUTE_FILE_NAME = "route.json";
 
 class Element
 {
@@ -29,7 +36,8 @@ public:
     Longitude
   };
 
-  explicit ListModel(QObject *parent = nullptr);
+  explicit ListModel(QString route_file_dir_path = "", QObject *parent = nullptr);
+  ~ListModel();
 
   int rowCount(const QModelIndex& parent) const override;
   QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
@@ -37,6 +45,8 @@ public:
 
 private:
   void updateElementsID();
+  int readRouteFile();
+  void writeRouteFile();
 
 public slots:
   void removeElement(const int index);
@@ -48,6 +58,7 @@ signals:
 
 private:
   QVector<Element> m_data;
+  QDir m_route_file_dir;
 };
 
 #endif // LISTMODEL_H

@@ -21,6 +21,10 @@ set(PROJECT_SOURCES
         qml.qrc
 )
 
+configure_file(route.json
+               ${CMAKE_CURRENT_BINARY_DIR}
+               COPYONLY)
+
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(radarTest
         MANUAL_FINALIZATION

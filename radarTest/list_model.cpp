@@ -1,11 +1,14 @@
 #include "list_model.h"
 
-ListModel::ListModel(QObject *parent)
-  : QAbstractListModel{parent}
+ListModel::ListModel(QString route_file_dir_path, QObject *parent)
+  : m_route_file_dir(route_file_dir_path), QAbstractListModel{parent}
 {
-  m_data.append(Element(m_data.size() + 1, "51°56'32.7\" СШ", "85°20'21.7\" ВД"));
-  m_data.append(Element(m_data.size() + 1, "52°56'32.7\" СШ", "85°20'21.7\" ВД"));
-  m_data.append(Element(m_data.size() + 1, "53°56'32.7\" СШ", "85°20'21.7\" ВД"));
+    readRouteFile();
+}
+
+ListModel::~ListModel()
+{
+    writeRouteFile();
 }
 
 int ListModel::rowCount(const QModelIndex &parent) const
@@ -45,6 +48,83 @@ void ListModel::updateElementsID()
 {
     for (int i = 0; i < m_data.size(); ++i)
         m_data[i].m_id = i + 1;
+}
+
+int ListModel::readRouteFile()
+{
+    QJsonParseError parse_error;
+    try {
+      if (!m_route_file_dir.exists()) {
+        qWarning() << m_route_file_dir.path();
+        throw QString("Non-existent directory");
+      }
+      QFile route_file(m_route_file_dir.absolutePath() + "/" +
+                         ROUTE_FILE_NAME);
+      if (!route_file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qWarning() << route_file.fileName();
+        throw QString("Non-existent file path");
+      }
+      // Копируем содержимое json файла
+      QJsonObject j_obj = QJsonDocument::fromJson(route_file.readAll(), &parse_error).object();
+      route_file.close();
+
+      // Копируем массив точек маршрута
+      QJsonArray route_array = j_obj.value("route").toArray();
+
+      // Заполняем наш вектор данными из json'a
+      for (int i = 0; i < route_array.size(); i++) {
+        QJsonObject coordinate = route_array[i].toObject();
+        m_data.append(Element(m_data.size() + 1,
+                              coordinate.value("latitude").toString(),
+                              coordinate.value("longitude").toString()));
+      }
+
+    } catch (QString &str) {
+      qWarning() << str;
+    }
+    return parse_error.error;
+}
+
+void ListModel::writeRouteFile()
+{
+    QFile route_file;
+    try {
+      if (m_route_file_dir.isEmpty()) {
+        QString error_string("Директория сохранения маршрута не обнаружена");
+        throw error_string;
+      };
+
+    } catch (const QString &str) {
+      qWarning() << str;
+      return;
+    }
+    route_file.setFileName(m_route_file_dir.absolutePath() + "/" +
+                             ROUTE_FILE_NAME);
+    try {
+      // Открываем и очищаем файл
+      if (!route_file.open(QIODevice::ReadWrite | QIODevice::Truncate)) {
+        QString error_string("File ");
+        error_string.append(ROUTE_FILE_NAME).append(" not open");
+        throw error_string;
+      }
+
+      QJsonArray route_array;
+      // Записываем прессеты в массив
+      for (int i = 0; i < m_data.size(); i++) {
+          QJsonObject coordinate;
+          coordinate.insert("latitude", QJsonValue::fromVariant(m_data[i].m_latitude));
+          coordinate.insert("longitude", QJsonValue::fromVariant(m_data[i].m_longitude));
+          route_array.push_back(coordinate);
+      }
+      QJsonObject route_list;
+      route_list.insert("route", route_array);
+
+      QJsonDocument doc(route_list);
+      route_file.write(doc.toJson());
+      route_file.close();
+    } catch (const QString &str) {
+      qWarning() << str;
+    }
 }
 
 void ListModel::removeElement(const int index)
