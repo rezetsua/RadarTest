@@ -16,6 +16,10 @@ Window {
 
     property color borderColor: "gray"
     property color textColor: "black"
+    property color accentColor: "crimson"
+    property color buttonPressedColor: "gray"
+    property color buttonHoveredColor: "silver"
+    property color buttonBackGroundColor: "darkgrey"
 
     Rectangle {
         anchors.fill: parent
@@ -43,6 +47,7 @@ Window {
                 color: "lightgray"
 
                 CoordinateListModel {
+                    id: coordinateListModel
                     anchors.fill: parent
                     anchors.topMargin: gap / 2
                     anchors.bottomMargin: gap / 2

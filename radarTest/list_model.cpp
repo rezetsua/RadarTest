@@ -3,9 +3,9 @@
 ListModel::ListModel(QObject *parent)
   : QAbstractListModel{parent}
 {
-  m_data.append(Element(m_data.size() + 1, "54°56'32.7\" СШ", "85°20'21.7\" ВД"));
-  m_data.append(Element(m_data.size() + 1, "54°56'32.7\" СШ", "85°20'21.7\" ВД"));
-  m_data.append(Element(m_data.size() + 1, "54°56'32.7\" СШ", "85°20'21.7\" ВД"));
+  m_data.append(Element(m_data.size() + 1, "51°56'32.7\" СШ", "85°20'21.7\" ВД"));
+  m_data.append(Element(m_data.size() + 1, "52°56'32.7\" СШ", "85°20'21.7\" ВД"));
+  m_data.append(Element(m_data.size() + 1, "53°56'32.7\" СШ", "85°20'21.7\" ВД"));
 }
 
 int ListModel::rowCount(const QModelIndex &parent) const
@@ -39,6 +39,35 @@ QHash<int, QByteArray> ListModel::roleNames() const
   roles[Latitude] = "latitude";
   roles[Longitude] = "longitude";
   return roles;
+}
+
+void ListModel::updateElementsID()
+{
+    for (int i = 0; i < m_data.size(); ++i)
+        m_data[i].m_id = i + 1;
+}
+
+void ListModel::removeElementByIndex(const int index)
+{
+    assert(index >= 0 && index < m_data.size());
+    beginRemoveRows(QModelIndex(), index, index);
+    m_data.remove(index);
+    endRemoveRows();
+    updateElementsID();
+    emit dataChanged(createIndex(0,0), createIndex(m_data.count(), 0));
+}
+
+void ListModel::addZeroElement()
+{
+    beginInsertRows(QModelIndex(), m_data.count(), m_data.count());
+    m_data.append(Element(m_data.size() + 1, "0°0'0.0\" СШ", "0°0'0.0\" ВД"));
+    endInsertRows();
+    emit dataChanged(createIndex(0,0), createIndex(m_data.count(), 0));
+}
+
+void ListModel::updateElementCoordinatesByIndex(const int index)
+{
+
 }
 
 Element::Element(int id) : m_id(id)

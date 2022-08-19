@@ -1,8 +1,9 @@
-import QtQuick 2.15
+﻿import QtQuick 2.15
 import QtQuick.Layouts 1.2
+import QtQuick.Controls 2.12
 
 Item {
-    width: parent.width
+    width: parent != null ? parent.width : 0
     height: elementHeight + 2 * gap
 
     RowLayout {
@@ -26,11 +27,17 @@ Item {
             border.width: borderWidth
             border.color: borderColor
 
-            Text {
+            TextInput {
                 anchors.centerIn: parent
                 text: model.latitude
-                color: textColor
+                color: acceptableInput ? textColor : accentColor
                 font.pixelSize: elementHeight / 2
+                selectByMouse: true
+                validator: RegExpValidator {
+                    regExp: /^((\d|([1-8][0-9]))|(90))°((\d|([1-5][0-9]))|(60))'((\d(\.\d)?|([1-5][0-9])(\.\d)?)|(60))"\s(С|Ю)Ш$/
+                }
+
+//                onEditingFinished:
             }
         }
 
@@ -41,11 +48,15 @@ Item {
             border.width: borderWidth
             border.color: borderColor
 
-            Text {
+            TextInput {
                 anchors.centerIn: parent
                 text: model.longitude
-                color: textColor
+                color: acceptableInput ? textColor : accentColor
                 font.pixelSize: elementHeight / 2
+                selectByMouse: true
+                validator: RegExpValidator {
+                    regExp: /^(\d|[1-9][0-9]|1[0-7][0-9]|180)°((\d|([1-5][0-9]))|(60))'((\d(\.\d)?|([1-5][0-9])(\.\d)?)|(60))"\s(В|З)Д$/
+                }
             }
         }
     }

@@ -9,11 +9,11 @@ Button {
     background: Rectangle {
         color: {
             if (parent.down)
-                return "gray"
+                return buttonPressedColor
             else if (parent.hovered)
-                return "silver"
+                return buttonHoveredColor
             else
-                return "darkgrey"
+                return buttonBackGroundColor
         }
     }
 }

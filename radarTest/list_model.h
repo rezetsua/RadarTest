@@ -35,6 +35,14 @@ public:
   QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
   QHash<int, QByteArray> roleNames() const override;
 
+private:
+  void updateElementsID();
+
+public slots:
+  void removeElementByIndex(const int index);
+  void addZeroElement();
+  void updateElementCoordinatesByIndex(const int index);
+
 signals:
 
 private:

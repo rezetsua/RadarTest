@@ -7,18 +7,32 @@ Button {
 
     checkable: true
     text: buttonText
+    contentItem: Text {
+        anchors.fill: parent
+        verticalAlignment: Text.AlignVCenter
+        horizontalAlignment: Text.AlignHCenter
+        text: buttonText
+        color: parent.checked ? accentColor : textColor
+        font.pixelSize: elementHeight / 2
+    }
+
     background: Rectangle {
         border.width: borderWidth
-        border.color: borderColor
+        border.color: parent.checked ? accentColor : borderColor
         color: {
             if (parent.down)
-                return "gray"
+                return buttonPressedColor
             else if (parent.hovered)
-                return "silver"
-            else if (parent.checked)
-                return "red"
+                return buttonHoveredColor
             else
-                return "darkgrey"
+                return buttonBackGroundColor
         }
+    }
+
+    ToolTip {
+        delay: 1000
+        timeout: 5000
+        text: qsTr("Выбрать")
+        visible: parent.hovered
     }
 }
