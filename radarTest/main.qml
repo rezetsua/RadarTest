@@ -8,7 +8,7 @@ Window {
     width: 480
     height: 480
     visible: true
-    title: qsTr("Radar Test")
+    title: qsTr("Редактор маршрута")
 
     property int gap: 4
     property int borderWidth: 1

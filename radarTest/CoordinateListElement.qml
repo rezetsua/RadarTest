@@ -37,7 +37,7 @@ Item {
                     regExp: /^((\d|([1-8][0-9]))|(90))°((\d|([1-5][0-9]))|(60))'((\d(\.\d)?|([1-5][0-9])(\.\d)?)|(60))"\s(С|Ю)Ш$/
                 }
 
-//                onEditingFinished:
+                onEditingFinished: list_model_.updateElementLatitude(index, displayText)
             }
         }
 
@@ -57,6 +57,8 @@ Item {
                 validator: RegExpValidator {
                     regExp: /^(\d|[1-9][0-9]|1[0-7][0-9]|180)°((\d|([1-5][0-9]))|(60))'((\d(\.\d)?|([1-5][0-9])(\.\d)?)|(60))"\s(В|З)Д$/
                 }
+
+                onEditingFinished: list_model_.updateElementLongitude(index, displayText)
             }
         }
     }

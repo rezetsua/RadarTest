@@ -15,7 +15,7 @@ ListView {
         for(var i = count - 1; i >= 0; --i) {
             var item = itemAtIndex(i)
             if (item.children[0].children[0].checked)
-                list_model_.removeElementByIndex(i)
+                list_model_.removeElement(i)
         }
     }
 }

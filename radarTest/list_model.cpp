@@ -47,7 +47,7 @@ void ListModel::updateElementsID()
         m_data[i].m_id = i + 1;
 }
 
-void ListModel::removeElementByIndex(const int index)
+void ListModel::removeElement(const int index)
 {
     assert(index >= 0 && index < m_data.size());
     beginRemoveRows(QModelIndex(), index, index);
@@ -65,9 +65,18 @@ void ListModel::addZeroElement()
     emit dataChanged(createIndex(0,0), createIndex(m_data.count(), 0));
 }
 
-void ListModel::updateElementCoordinatesByIndex(const int index)
+void ListModel::updateElementLatitude(const int index, const QString latitude)
 {
+    assert(index >= 0 && index < m_data.size());
+    m_data[index].m_latitude = latitude;
+    emit dataChanged(createIndex(0,0), createIndex(m_data.count(), 0));
+}
 
+void ListModel::updateElementLongitude(const int index, const QString longitude)
+{
+    assert(index >= 0 && index < m_data.size());
+    m_data[index].m_longitude = longitude;
+    emit dataChanged(createIndex(0,0), createIndex(m_data.count(), 0));
 }
 
 Element::Element(int id) : m_id(id)

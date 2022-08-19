@@ -39,9 +39,10 @@ private:
   void updateElementsID();
 
 public slots:
-  void removeElementByIndex(const int index);
+  void removeElement(const int index);
   void addZeroElement();
-  void updateElementCoordinatesByIndex(const int index);
+  void updateElementLatitude(const int index, const QString latitude);
+  void updateElementLongitude(const int index, const QString longitude);
 
 signals:
 
